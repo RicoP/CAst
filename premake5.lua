@@ -42,22 +42,29 @@ workspace (project_name)
     optimize "Size"
 
 project "libtcc"
-  defines { "ONE_SOURCE=0", "TCC_TARGET_X86_64" }
+  defines { "ONE_SOURCE=0", "TCC_TARGET_X86_64", "TCC_TARGET_PE=1" }
   includedirs { "external/tinycc/" }
+  includedirs { "source/" }
   files { "external/tinycc/i386-asm.c" }
   files { "external/tinycc/libtcc.c" }
   files { "external/tinycc/tccasm.c" }
   files { "external/tinycc/tccelf.c" }
   files { "external/tinycc/tccgen.c" }
+  files { "external/tinycc/tccpe.c" }
   files { "external/tinycc/tccpp.c" }
+  files { "external/tinycc/tccrun.c" }
+  files { "external/tinycc/tcctools.c" }
   files { "external/tinycc/x86_64-gen.c" }
   files { "external/tinycc/x86_64-link.c" }
 
 project "tcc"
-  debugargs { "-c", "ex1.c" }
-  defines { "ONE_SOURCE=0", "TCC_TARGET_X86_64" }
+  ---Lcrt/lib -Icrt/include -isystem ../external/tinycc/include -o myprog2.exe test.c
+  debugargs { "-Lcrt/lib", "-Icrt/include", " -isystem", "../external/tinycc/include", "-o", "myprog2.exe", "test.c" }
+  defines { "ONE_SOURCE=0", "TCC_TARGET_X86_64", "TCC_TARGET_PE=1" }
   kind "ConsoleApp"
   warnings "Extra"
   includedirs { "external/tinycc/" }
+  includedirs { "source/" }
+  files { "source/config.h" }
   files { "external/tinycc/tcc.c" }
   links { "libtcc" }

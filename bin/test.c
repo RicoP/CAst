@@ -1,5 +1,4 @@
-//#!/usr/local/bin/tcc -run
-//#include "tcclib.h"
+#include <stdio.h>
 
 struct S {
 	int foo;
