@@ -5,7 +5,7 @@ print("Building Solution " .. project_name)
 workspace (project_name)
   characterset ("MBCS")
   configurations { "Debug", "DebugFast", "Release" }
-  startproject "tcc"
+  startproject "cast"
   location ".build/projects"
   targetdir ".build/bin/%{cfg.buildcfg}"
   debugdir "bin"
@@ -58,8 +58,7 @@ project "libtcc"
   files { "external/tinycc/x86_64-link.c" }
 
 project "tcc"
-  ---Lcrt/lib -Icrt/include -isystem ../external/tinycc/include -o myprog2.exe test.c
-  debugargs { "-Lcrt/lib", "-Icrt/include", " -isystem", "../external/tinycc/include", "-o", "myprog2.exe", "test.c" }
+  debugargs { "-Lcrt/lib", "-Icrt/include", "-std=c11", " -isystem", "../external/tinycc/include", "-o", "myprog.exe", "test.c" }
   defines { "ONE_SOURCE=0", "TCC_TARGET_X86_64", "TCC_TARGET_PE=1" }
   kind "ConsoleApp"
   warnings "Extra"
@@ -67,4 +66,15 @@ project "tcc"
   includedirs { "source/" }
   files { "source/config.h" }
   files { "external/tinycc/tcc.c" }
+  links { "libtcc" }
+
+project "cast"
+  debugargs { "-Lcrt/lib", "-Icrt/include", "-std=c11", " -isystem", "../external/tinycc/include", "-o", "myprog.exe", "test.c" }
+  defines { "ONE_SOURCE=0", "TCC_TARGET_X86_64", "TCC_TARGET_PE=1" }
+  kind "ConsoleApp"
+  warnings "Extra"
+  includedirs { "external/tinycc/" }
+  includedirs { "source/" }
+  files { "source/**" }
+  --files { "external/tinycc/tcc.c" }
   links { "libtcc" }
